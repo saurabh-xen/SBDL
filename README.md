@@ -27,3 +27,6 @@ Assumption :
 
 Key Things to Note :
 1.Lot of systems connecting to the MDM platform and copying data from MDM will put a lot of workload on the MDM. This approach is not scalable. So how do we design it? We decided to put a Kafka system in between these two ends. Once you have Kafka, we will bring entity data from MDM to Kafka. Then let these systems read from Kafka. This arrangement will make our system scalable without too much load on the MDM platform. We will bring data from MDM to Kafka once every day.
+2. The Code is written in such a way so that it can be re-use for different enviroment dev, testing or QA, production for real time project. see image : ![image](https://github.com/saurabh-xen/SBDL/assets/67908367/3e5ac4b9-df57-4041-a83b-af81cf634d66)
+
+
