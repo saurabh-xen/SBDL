@@ -2,7 +2,7 @@ import sys
 import uuid
 from pyspark.sql.functions import struct, col, to_json
 
-from lib import ConfigLoader, Utils, DataLoader
+from lib import ConfigLoader, Utils, DataLoader, Transformations
 from lib.logger import Log4j
 
 if __name__ == '__main__':
@@ -25,6 +25,22 @@ if __name__ == '__main__':
 
     logger = Log4j(spark)
 
-    accounts_df = DataLoader.read_accounts(spark, job_run_env, enable_hive, hive_db )
+    logger.info("Reading SBDL Account DF")
+    accounts_df = DataLoader.read_accounts(spark, job_run_env, enable_hive, hive_db)
+    contract_df = Transformations.get_contract(accounts_df)
+
+    logger.info("Reading SBDL Party DF")
+    parties_df = DataLoader.read_parties(spark, job_run_env, enable_hive, hive_db)
+    relations_df = Transformations.get_relations(parties_df)
+
+    logger.info("Reading SBDL Address DF")
+    address_df = DataLoader.read_address(spark, job_run_env, enable_hive, hive_db)
+    relation_address_df = Transformations.get_address(address_df)
+
+    logger.info("Join Party Relations and Address")
+    party_address_df = Transformations.join_party_address(relations_df, relation_address_df)
+
+    logger.info("Join Account and Parties")
+    data_df = Transformations.join_contract_party(contract_df, party_address_df)
 
     logger.info("Finished creating Spark Session")
