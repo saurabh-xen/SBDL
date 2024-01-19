@@ -15,4 +15,7 @@ class Log4j(object):
     def debug(self, message):
         self.logger.debug(message)
 
-
+#
+# Spark uses Log4J for logging. So it is a good idea to reuse the same log4j that Spark uses.
+#And this package does the necessary things to get the Log4J instance from Spark and set it up for our application.
+# We will be using this logger in our application. The Log4J also requires a log4j.properties file.
