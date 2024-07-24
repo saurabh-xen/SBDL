@@ -15,12 +15,14 @@ if __name__ == '__main__':
     load_date = sys.argv[2]
     job_run_id = "SBDL-" + str(uuid.uuid4())
 
-    print("Initializing SBDL Job in " + job_run_env + " Job ID: " + job_run_id)
+    # log
+    print("Initializing SBDL Job in " + job_run_env + " Job ID: " + job_run_id) 
     conf = ConfigLoader.get_config(job_run_env)
     enable_hive = True if conf["enable.hive"] == "true" else False
     hive_db = conf["hive.database"]
 
-    print("Creating Spark Session")
+    # log
+    print("Creating Spark Session") 
     spark = Utils.get_spark_session(job_run_env)
 
     logger = Log4j(spark)
@@ -50,6 +52,7 @@ if __name__ == '__main__':
     logger.info("Preparing to send data to Kafka")
     kafka_kv_df = final_df.select(col("payload.contractIdentifier.newValue").alias("key"),
                                   to_json(struct("*")).alias("value"))
+    # for debugging purpose only
     input("Press Any Key")
 
     # Keep it in vault or other secure place, authorize application to extract it from there
