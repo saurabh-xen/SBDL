@@ -7,11 +7,12 @@ Source Could be anything like kafka stream, files or Database, our aim is to tak
 
 Tech Stack Requirement :
 1. Hadoop Cluster
-2. PySpark
+2. Spark/PySpark
 3. Hive
 4. YARN
 5. Jenkins (optional for this project)
 6. Github (for maintaing the source code)
+7. Python
 
 Load Type : Full load every day and maintaing 7 days of records.
 
